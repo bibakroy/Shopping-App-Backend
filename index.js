@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
+const User = require("./models/user");
+
 const app = express();
 
 // Middleware
