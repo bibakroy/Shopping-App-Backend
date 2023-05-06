@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     await newUser.save();
 
     const payload = {
-      newUserId: newUser._id,
+      userId: newUser._id,
       name: newUser.name,
       email: newUser.email,
     };
@@ -46,6 +46,7 @@ export const login = async (req, res) => {
 
     const payload = { userId: user._id, name: user.name, email: user.email };
     const token = jwt.sign(payload, process.env.JWT_SECRET);
+
     return res.status(200).json({ token });
   } catch (err) {
     return res.status(500).json({ message: err.message });
