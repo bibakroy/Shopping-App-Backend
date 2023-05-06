@@ -9,10 +9,6 @@ import router from "./routes/index.js";
 
 const app = express();
 
-// Middleware
-app.use(bodyParser.json());
-app.use(cors());
-
 // Connect to MongoDB database
 mongoose
   .connect(process.env.MONGO_URI)
@@ -23,6 +19,9 @@ mongoose
     console.log("Error: ", err.message);
   });
 
+// Middleware
+app.use(bodyParser.json());
+app.use(cors());
 app.use("/api", router);
 
 // Start server
