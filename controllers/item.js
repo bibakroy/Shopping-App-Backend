@@ -29,7 +29,7 @@ export const updateItem = async (req, res) => {
   const { name } = req.body;
 
   try {
-    const item = await Item.findById(req.params.id).exec();
+    const item = await Item.findById(req.params.id);
     if (!item) {
       return res.status(404).json({ message: "Item not found" });
     }
@@ -41,8 +41,29 @@ export const updateItem = async (req, res) => {
     item.name = name;
     await item.save();
 
-    return res.status(204).json({
-      message: "Item updated successfully",
+    return res.status(200).json({
+      message: "Item has been updated successfully",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+};
+
+export const deleteItem = async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+
+    if (item.created_by != req.user.userId) {
+      return res.status(403).json({ message: "Forbidden" });
+    }
+
+    await item.deleteOne();
+
+    return res.status(200).json({
+      message: "Item has been deleted successfully",
     });
   } catch (err) {
     return res.status(500).json({ message: err.message });
